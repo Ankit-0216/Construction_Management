@@ -3,7 +3,7 @@ import React, { useContext, useState } from "react";
 import { ProjectsContext } from "../context/ProjectsContext";
 
 const AddProjects = () => {
-  const { addProjects } = useContext(ProjectsContext);
+  const { addProjects, setIsAddButtonClicked } = useContext(ProjectsContext);
   const [input, setInput] = useState({
     project_name: "",
     address: "",
@@ -22,13 +22,20 @@ const AddProjects = () => {
         "Content-type": "application/json; charset=UTF-8",
         token: localStorage.token,
       },
-      body: JSON.stringify({ project_name, address, deadline, status }),
+      body: JSON.stringify({
+        project_name,
+        address,
+        deadline,
+        status,
+        milestones: "milestones",
+      }),
     };
 
     try {
-      const res = await fetch("http://localhost:5000/projects/create", opt);
+      const res = await fetch("http://localhost:5000/projects", opt);
       console.log(res);
       addProjects(res);
+      setIsAddButtonClicked((prev) => ++prev);
       //const data = await res.json();
       // if (data.token) {
       //   localStorage.setItem("token", data.token);

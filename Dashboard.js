@@ -38,9 +38,7 @@ const Dashboard = ({ setAuth }) => {
       <h2>
         <ProjectHeader />
       </h2>
-      <div>
-        <AddProjects />
-      </div>
+      <AddProjects />
       <ProjectList />
       <button onClick={logOut} className="btn btn-danger">
         Logout

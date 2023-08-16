@@ -2,8 +2,10 @@ import React, { useEffect, useContext } from "react";
 import ProjectFinder from "../apis/ProjectFinder";
 import { ProjectsContext } from "../context/ProjectsContext";
 
-const ProjectList = () => {
-  const { projects, setProjects } = useContext(ProjectsContext);
+const ProjectList = (props) => {
+  const { projects, setProjects, isAddButtonClicked } =
+    useContext(ProjectsContext);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -12,13 +14,14 @@ const ProjectList = () => {
             token: localStorage.token,
           },
         });
-        setProjects(response.data.data.projects);
+        // console.log(response);
+        setProjects(response.data);
       } catch (err) {
         console.error(err.message);
       }
     };
     fetchData();
-  }, [setProjects]);
+  }, [setProjects, isAddButtonClicked]);
 
   return (
     <div className="list-group">
@@ -50,6 +53,7 @@ const ProjectList = () => {
               </tr>
             );
           })}
+
           {/* <tr>
             <td>project 1</td>
             <td>abcdefgh</td>
