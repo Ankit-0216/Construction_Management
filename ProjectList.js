@@ -1,28 +1,24 @@
-import React, { useEffect, useState } from "react";
-//import ProjectFinder from "../apis/ProjectFinder";
+import React, { useEffect, useContext } from "react";
+import ProjectFinder from "../apis/ProjectFinder";
+import { ProjectsContext } from "../context/ProjectsContext";
 
 const ProjectList = () => {
-  const [projects, setProjects] = useState([]);
-
-  async function getProject() {
-    try {
-      const res = await fetch("http://localhost:5000/projects/12", {
-        method: "GET",
-        headers: { token: localStorage.token },
-      });
-      const data = await res.json();
-      if (data.project_name) {
-        setProjects(data.project_name);
-      }
-    } catch (error) {
-      console.error(error.message);
-    }
-  }
-
+  const { projects, setProjects } = useContext(ProjectsContext);
   useEffect(() => {
-    console.log(getProject);
-    getProject();
-  });
+    const fetchData = async () => {
+      try {
+        const response = await ProjectFinder.get("/", {
+          headers: {
+            token: localStorage.token,
+          },
+        });
+        setProjects(response.data.data.projects);
+      } catch (err) {
+        console.error(err.message);
+      }
+    };
+    fetchData();
+  }, [setProjects]);
 
   return (
     <div className="list-group">
@@ -38,8 +34,24 @@ const ProjectList = () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>{projects}</td>
+          {projects.map((project, index) => {
+            return (
+              <tr key={index}>
+                <td>{project.project_name}</td>
+                <td>{project.address}</td>
+                <td>{project.status}</td>
+                <td>{project.deadline}</td>
+                <td>
+                  <button className="btn btn-warning">Update</button>
+                </td>
+                <td>
+                  <button className="btn btn-danger">Delete</button>
+                </td>
+              </tr>
+            );
+          })}
+          {/* <tr>
+            <td>project 1</td>
             <td>abcdefgh</td>
             <td>OPEN</td>
             <td>19/08/2023</td>
@@ -49,7 +61,7 @@ const ProjectList = () => {
             <td>
               <button className="btn btn-danger">Delete</button>
             </td>
-          </tr>
+          </tr> */}
         </tbody>
       </table>
     </div>

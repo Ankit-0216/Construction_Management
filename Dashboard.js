@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 
 import ProjectHeader from "../components/ProjectHeader";
+import ProjectList from "../components/ProjectList";
+import AddProjects from "../components/AddProjects";
 
 const Dashboard = ({ setAuth }) => {
   const [name, setName] = useState("");
@@ -32,8 +34,14 @@ const Dashboard = ({ setAuth }) => {
 
   return (
     <div>
-      <h1>Dashboard, {`Hi, ${name}`}</h1>
-      <ProjectHeader />
+      <h1>{`Hi, ${name}`}</h1>
+      <h2>
+        <ProjectHeader />
+      </h2>
+      <div>
+        <AddProjects />
+      </div>
+      <ProjectList />
       <button onClick={logOut} className="btn btn-danger">
         Logout
       </button>
