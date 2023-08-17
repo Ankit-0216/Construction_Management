@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 //import ProjectFinder from "../apis/ProjectFinder";
 import { ProjectsContext } from "../context/ProjectsContext";
 
-const AddProjects = () => {
+const AddProjects = ({ closeModal }) => {
   const { addProjects, setIsAddButtonClicked } = useContext(ProjectsContext);
   const [input, setInput] = useState({
     project_name: "",
@@ -44,6 +44,7 @@ const AddProjects = () => {
     } catch (error) {
       console.error(error.message);
     }
+    closeModal();
   };
 
   const handleChange = (e) => {
@@ -99,7 +100,7 @@ const AddProjects = () => {
             type="submit"
             className="btn btn-primary"
           >
-            ADD
+            ADD PROJECT
           </button>
         </div>
       </form>

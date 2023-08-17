@@ -38,7 +38,11 @@ router.get("/", authorization, async (req, res) => {
       [user_id]
     );
 
-    res.json(projects.rows);
+    res.json({
+      data: {
+        projects: projects.rows,
+      },
+    });
   } catch (error) {
     console.error("Error fetching projects:", error);
     res

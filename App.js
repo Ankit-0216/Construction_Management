@@ -9,7 +9,7 @@ import {
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import UpdateProject from "./pages/UpdateProject";
+import UpdateProjectPage from "./pages/UpdateProjectPage";
 import ProjectDetailPage from "./pages/ProjectDetailPage";
 import { ProjectsContextProvider } from "./context/ProjectsContext";
 
@@ -17,7 +17,7 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:5000/auth/is-verify/", {
+    fetch("http://localhost:5000/auth/is-verify", {
       method: "GET",
       headers: {
         token: localStorage.token,
@@ -72,10 +72,14 @@ function App() {
             />
             <Route
               exact
-              path="/projects/:id/update"
-              component={UpdateProject}
+              path="/projects/:project_id/update"
+              component={UpdateProjectPage}
             />
-            <Route exact path="/projects/:id" component={ProjectDetailPage} />
+            <Route
+              exact
+              path="/projects/:project_id"
+              component={ProjectDetailPage}
+            />
           </Switch>
         </div>
       </Router>
