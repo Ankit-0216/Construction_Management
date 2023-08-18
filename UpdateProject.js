@@ -8,7 +8,7 @@ const UpdateProject = (props) => {
 
   const history = useHistory();
 
-  const { projects } = useContext(ProjectsContext);
+  useContext(ProjectsContext);
 
   const [input, setInput] = useState({
     project_name: "",
@@ -32,7 +32,7 @@ const UpdateProject = (props) => {
     };
 
     fetchData();
-  }, []);
+  }, [project_id]);
 
   const handleChange = (e) => {
     setInput((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -71,7 +71,7 @@ const UpdateProject = (props) => {
     <div>
       <form action="">
         <div className="form-group">
-          <label htmlFor="name">Name</label>
+          <label htmlFor="name">Project Name</label>
           <input
             value={project_name}
             name="project_name"

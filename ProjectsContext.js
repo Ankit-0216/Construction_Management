@@ -5,6 +5,7 @@ export const ProjectsContext = createContext();
 export const ProjectsContextProvider = (props) => {
   const [projects, setProjects] = useState([]);
   const [isAddButtonClicked, setIsAddButtonClicked] = useState(0);
+  const [selectedProject, setSelectedProject] = useState([]);
 
   const addProjects = (project) => {
     setProjects([...projects, project]);
@@ -18,6 +19,8 @@ export const ProjectsContextProvider = (props) => {
         addProjects,
         isAddButtonClicked,
         setIsAddButtonClicked,
+        selectedProject,
+        setSelectedProject,
       }}
     >
       {props.children}

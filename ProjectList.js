@@ -28,7 +28,7 @@ const ProjectList = () => {
   const handleDelete = async (e, project_id) => {
     e.stopPropagation();
     try {
-      const response = await ProjectFinder.delete(`/${project_id}`, {
+      await ProjectFinder.delete(`/${project_id}`, {
         headers: {
           token: localStorage.token,
         },
@@ -55,8 +55,8 @@ const ProjectList = () => {
 
   return (
     <div className="list-group">
-      <table className="table table-hover table-dark">
-        <thead>
+      <table className="table table-dark table-striped">
+        <thead className="table-dark">
           <tr className="bg-primary">
             <th scope="col">Name</th>
             <th scope="col">Address</th>
