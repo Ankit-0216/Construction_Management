@@ -6,8 +6,6 @@ export const TasksContextProvider = (props) => {
   const [tasks, setTasks] = useState([]);
   const [isAddButtonClicked, setIsAddButtonClicked] = useState(0);
 
-  const [isUpdateButtonClicked, setIsUpdateButtonClicked] = useState(0);
-
   const addTasks = (task) => {
     setTasks([...tasks, task]);
   };
@@ -20,8 +18,6 @@ export const TasksContextProvider = (props) => {
         addTasks,
         isAddButtonClicked,
         setIsAddButtonClicked,
-        isUpdateButtonClicked,
-        setIsUpdateButtonClicked,
       }}
     >
       {props.children}

@@ -8,6 +8,7 @@ const projectRoutes = require("./routes/projects");
 const taskRoutes = require("./routes/tasks");
 const sheetsRoutes = require("./routes/sheets");
 const drawImageRoutes = require("./routes/DrawOnImage");
+const userProjectRoutes = require("./routes/userProjects");
 
 const cors = require("cors");
 
@@ -35,7 +36,9 @@ app.use("/projects", projectRoutes);
 app.use("/projects", taskRoutes);
 
 //Sheets Routes
-app.use("/upload-images", sheetsRoutes);
+app.use("/projects", sheetsRoutes);
+
+//UserProjects Routes
 
 //Draw on Image(Image upload to canvas) Routes
 app.use("/draw-on-image", drawImageRoutes);

@@ -1,17 +1,17 @@
-import React, { useState, useContext } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState, useContext, useEffect } from "react";
+import { useParams, useHistory } from "react-router-dom";
 import { TasksContext } from "../context/TasksContext";
-//import ProjectFinder from "../apis/ProjectFinder";
-//import TaskFinder from "../apis/TaskFinder";
+import { ProjectsContext } from "../context/ProjectsContext";
+import TaskFinder from "../apis/TaskFinder";
 
-const UpdateProject = ({ closeModal }) => {
+const UpdateTask = () => {
+  const { task_id } = useParams();
   const { project_id } = useParams();
 
-  const { task_id } = useParams();
+  useContext(TasksContext);
+  useContext(ProjectsContext);
 
-  //   const history = useHistory();
-
-  const { setIsUpdateButtonClicked } = useContext(TasksContext);
+  const history = useHistory();
 
   const [input, setInput] = useState({
     task_title: "",
@@ -22,6 +22,20 @@ const UpdateProject = ({ closeModal }) => {
   });
 
   const { task_title, description, status, type_of_task, assigned_to } = input;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await TaskFinder.get(`/${project_id}/tasks/${task_id}`);
+      console.log(response.data);
+      setInput(response.data);
+    };
+
+    fetchData();
+  }, [project_id, task_id]);
+
+  const handleChange = (e) => {
+    setInput((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -45,13 +59,12 @@ const UpdateProject = ({ closeModal }) => {
         `http://localhost:5000/projects/${project_id}/tasks/${task_id}`,
         opt
       );
+      //console.log(res);
       setInput(res);
-      //history.push("/dashboard");
+      history.push(`/projects/${project_id}`);
     } catch (error) {
       console.error(error.message);
     }
-    setIsUpdateButtonClicked((prev) => ++prev);
-    closeModal();
   };
 
   return (
@@ -62,6 +75,7 @@ const UpdateProject = ({ closeModal }) => {
           <input
             value={task_title}
             name="task_title"
+            onChange={handleChange}
             id="task_title"
             className="form-control"
             type="text"
@@ -73,6 +87,7 @@ const UpdateProject = ({ closeModal }) => {
           <input
             value={description}
             name="description"
+            onChange={handleChange}
             id="description"
             className="form-control"
             type="text"
@@ -84,6 +99,7 @@ const UpdateProject = ({ closeModal }) => {
           <input
             value={status}
             name="status"
+            onChange={handleChange}
             id="status"
             className="form-control"
             type="text"
@@ -95,6 +111,7 @@ const UpdateProject = ({ closeModal }) => {
           <input
             value={type_of_task}
             name="type_of_task"
+            onChange={handleChange}
             id="type_of_task"
             className="form-control"
             type="text"
@@ -106,6 +123,7 @@ const UpdateProject = ({ closeModal }) => {
           <input
             value={assigned_to}
             name="assigned_to"
+            onChange={handleChange}
             id="assigned_to"
             className="form-control"
             type="text"
@@ -123,4 +141,4 @@ const UpdateProject = ({ closeModal }) => {
   );
 };
 
-export default UpdateProject;
+export default UpdateTask;

@@ -1,16 +1,17 @@
-import React, { useEffect, useContext, useState } from "react";
-import Modal from "react-modal";
+import React, { useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import TaskFinder from "../apis/TaskFinder";
 import { TasksContext } from "../context/TasksContext";
-import UpdateTask from "../components/UpdateTask";
+import { ProjectsContext } from "../context/ProjectsContext";
+import { useHistory } from "react-router-dom";
 
 const TasksComponent = () => {
   const { project_id } = useParams();
+  useContext(ProjectsContext);
+
+  let history = useHistory();
 
   const { tasks, setTasks, isAddButtonClicked } = useContext(TasksContext);
-
-  const [isUpdateTaskModalOpen, setIsUpdateTaskModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,17 +41,9 @@ const TasksComponent = () => {
     }
   };
 
-  // const handleUpdate = (e, project_id) => {
-  //   e.stopPropagation();
-  //   history.push(`/projects/${project_id}/update`);
-  // };
-
-  // const handleProjectSelect = (project_id) => {
-  //   history.push(`/projects/${project_id}`);
-  // };
-
-  const toggleUpdateTaskModal = () => {
-    setIsUpdateTaskModalOpen(!isUpdateTaskModalOpen);
+  const handleUpdate = (e, tasks_id) => {
+    e.stopPropagation();
+    history.push(`/projects/${project_id}/tasks/${tasks_id}/update`);
   };
 
   return (
@@ -76,7 +69,7 @@ const TasksComponent = () => {
                 <td>{task.assigned_to}</td>
                 <td>
                   <button
-                    onClick={toggleUpdateTaskModal}
+                    onClick={(e) => handleUpdate(e, task.tasks_id)}
                     className="btn btn-warning"
                   >
                     Update
@@ -90,13 +83,6 @@ const TasksComponent = () => {
                     Delete
                   </button>
                 </td>
-                <Modal
-                  isOpen={isUpdateTaskModalOpen}
-                  onRequestClose={toggleUpdateTaskModal}
-                  contentLabel="Add Task Modal"
-                >
-                  <UpdateTask closeModal={toggleUpdateTaskModal} />
-                </Modal>
               </tr>
             );
           })}

@@ -5,11 +5,14 @@ import TasksComponent from "../components/TasksComponent";
 import AddTasks from "../components/AddTasks";
 import { ProjectsContext } from "../context/ProjectsContext";
 import ProjectFinder from "../apis/ProjectFinder";
+import { useHistory } from "react-router-dom";
 
 const ProjectDetailPage = () => {
   const { project_id } = useParams();
   const { selectedProject, setSelectedProject } = useContext(ProjectsContext);
   const [isAddTasksModalOpen, setIsAddTasksModalOpen] = useState(false);
+
+  let history = useHistory();
 
   const toggleAddTasksModal = () => {
     setIsAddTasksModalOpen(!isAddTasksModalOpen);
@@ -28,6 +31,10 @@ const ProjectDetailPage = () => {
     fetchData();
   }, [setSelectedProject, project_id]);
 
+  const handleSheets = (project_id) => {
+    history.push(`/projects/${project_id}/sheets`);
+  };
+
   return (
     <div className="app">
       <h1>{`Your Project, ${selectedProject.project_name}`}</h1>
@@ -36,7 +43,16 @@ const ProjectDetailPage = () => {
           Add Tasks
         </button>
       </div>
+
       <TasksComponent />
+      <div>
+        <button
+          onClick={() => handleSheets(selectedProject.project_id)}
+          className="btn btn-primary"
+        >
+          Sheets Page
+        </button>
+      </div>
       <Modal
         isOpen={isAddTasksModalOpen}
         onRequestClose={toggleAddTasksModal}

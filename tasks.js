@@ -30,7 +30,10 @@ router.get("/:project_id/tasks", async (req, res) => {
   try {
     const { project_id } = req.params;
     //fetch all tasks from database
-    const tasks = await pool.query("SELECT * FROM tasks");
+    const tasks = await pool.query(
+      "SELECT * FROM tasks WHERE project_id = $1",
+      [project_id]
+    );
 
     res.json(tasks.rows);
   } catch (error) {
