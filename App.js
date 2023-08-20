@@ -12,6 +12,8 @@ import Register from "./pages/Register";
 import UpdateProjectPage from "./pages/UpdateProjectPage";
 import ProjectDetailPage from "./pages/ProjectDetailPage";
 import { ProjectsContextProvider } from "./context/ProjectsContext";
+import { TasksContextProvider } from "./context/TasksContext";
+import UpdateTaskPage from "./pages/UpdateTaskPage";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -34,8 +36,8 @@ function App() {
 
   return (
     <ProjectsContextProvider>
-      <Router>
-        <div className="container">
+      <TasksContextProvider>
+        <Router>
           <Switch>
             <Route
               exact
@@ -80,9 +82,14 @@ function App() {
               path="/projects/:project_id"
               component={ProjectDetailPage}
             />
+            <Route
+              exact
+              path="/projects/:project_id/tasks/:tasks_id/update"
+              component={UpdateTaskPage}
+            />
           </Switch>
-        </div>
-      </Router>
+        </Router>
+      </TasksContextProvider>
     </ProjectsContextProvider>
   );
 }

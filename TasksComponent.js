@@ -17,7 +17,7 @@ const TasksComponent = () => {
     const fetchData = async () => {
       try {
         const response = await TaskFinder.get(`/${project_id}/tasks`);
-        console.log(response);
+        console.log(response.data);
         setTasks(response.data);
       } catch (err) {
         console.error(err.message);
@@ -53,7 +53,6 @@ const TasksComponent = () => {
           <tr className="bg-primary">
             <th scope="col">Task Title</th>
             <th scope="col">Status</th>
-            <th scope="col">Type of task</th>
             <th scope="col">Assigned to</th>
             <th scope="col">Edit</th>
             <th scope="col">Delete</th>
@@ -65,7 +64,6 @@ const TasksComponent = () => {
               <tr key={task.tasks_id}>
                 <td>{task.task_title}</td>
                 <td>{task.status}</td>
-                <td>{task.type_of_task}</td>
                 <td>{task.assigned_to}</td>
                 <td>
                   <button

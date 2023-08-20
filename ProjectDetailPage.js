@@ -1,22 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Modal from "react-modal";
-import TasksComponent from "../components/TasksComponent";
-import AddTasks from "../components/AddTasks";
-import { ProjectsContext } from "../context/ProjectsContext";
+
 import ProjectFinder from "../apis/ProjectFinder";
-import { useHistory } from "react-router-dom";
+import { ProjectsContext } from "../context/ProjectsContext";
+
+import Tasks from "../components/Tasks";
+import Sheets from "../components/Sheets";
+import SheetsPage from "./Sheetspage";
 
 const ProjectDetailPage = () => {
   const { project_id } = useParams();
+  const [currentTab, setCurrentTab] = useState(0);
+
   const { selectedProject, setSelectedProject } = useContext(ProjectsContext);
-  const [isAddTasksModalOpen, setIsAddTasksModalOpen] = useState(false);
-
-  let history = useHistory();
-
-  const toggleAddTasksModal = () => {
-    setIsAddTasksModalOpen(!isAddTasksModalOpen);
-  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,35 +27,37 @@ const ProjectDetailPage = () => {
     fetchData();
   }, [setSelectedProject, project_id]);
 
-  const handleSheets = (project_id) => {
-    history.push(`/projects/${project_id}/sheets`);
+  const renderSwitch = (param) => {
+    switch (param) {
+      case 0:
+        return <Tasks />;
+      case 1:
+        return <Sheets />;
+      default:
+        return <></>;
+    }
   };
 
   return (
-    <div className="app">
+    <div className="container">
       <h1>{`Your Project, ${selectedProject.project_name}`}</h1>
-      <div>
-        <button onClick={toggleAddTasksModal} className="btn btn-primary">
-          Add Tasks
-        </button>
+
+      <div className="tabs">
+        <h2
+          style={currentTab === 0 ? { textDecoration: "underline" } : {}}
+          onClick={() => setCurrentTab(0)}
+        >
+          Tasks
+        </h2>
+        <h2
+          style={currentTab === 1 ? { textDecoration: "underline" } : {}}
+          onClick={() => setCurrentTab(1)}
+        >
+          Sheets
+        </h2>
       </div>
 
-      <TasksComponent />
-      <div>
-        <button
-          onClick={() => handleSheets(selectedProject.project_id)}
-          className="btn btn-primary"
-        >
-          Sheets Page
-        </button>
-      </div>
-      <Modal
-        isOpen={isAddTasksModalOpen}
-        onRequestClose={toggleAddTasksModal}
-        contentLabel="Add Tasks Modal"
-      >
-        <AddTasks closeModal={toggleAddTasksModal} />
-      </Modal>
+      {renderSwitch(currentTab)}
     </div>
   );
 };

@@ -37,7 +37,7 @@ const Login = ({ setAuth }) => {
   };
 
   return (
-    <>
+    <div className="container">
       <div className="form-container">
         <form onSubmit={handleSubmit}>
           <h3 className="text-center">
@@ -95,7 +95,7 @@ const Login = ({ setAuth }) => {
           </div>
         </form>
       </div>
-    </>
+    </div>
   );
 };
 

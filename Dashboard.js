@@ -38,7 +38,7 @@ const Dashboard = ({ setAuth }) => {
   };
 
   return (
-    <div>
+    <div className="container">
       <h1>{`Hi, ${name}`}</h1>
       <h2>
         <ProjectHeader />
@@ -56,6 +56,7 @@ const Dashboard = ({ setAuth }) => {
         isOpen={isAddProjectsModalOpen}
         onRequestClose={toggleAddProjectsModal}
         contentLabel="Add Projects Modal"
+        ariaHideApp={false}
       >
         <AddProjects closeModal={toggleAddProjectsModal} />
       </Modal>

@@ -49,7 +49,7 @@ const Register = ({ setAuth }) => {
   console.log(input);
 
   return (
-    <>
+    <div className="container">
       {isRedirect ? (
         <Redirect to="/login" />
       ) : (
@@ -164,7 +164,7 @@ const Register = ({ setAuth }) => {
           </form>
         </div>
       )}
-    </>
+    </div>
   );
 };
 
