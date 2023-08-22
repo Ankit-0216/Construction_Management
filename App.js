@@ -11,9 +11,12 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import UpdateProjectPage from "./pages/UpdateProjectPage";
 import ProjectDetailPage from "./pages/ProjectDetailPage";
+import UpdateTaskPage from "./pages/UpdateTaskPage";
+import EditImage from "./pages/EditImage";
+import UserProjects from "./pages/UserProjects";
+
 import { ProjectsContextProvider } from "./context/ProjectsContext";
 import { TasksContextProvider } from "./context/TasksContext";
-import UpdateTaskPage from "./pages/UpdateTaskPage";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -84,9 +87,15 @@ function App() {
             />
             <Route
               exact
-              path="/projects/:project_id/tasks/:tasks_id/update"
+              path="/projects/:project_id/tasks/:task_id/update"
               component={UpdateTaskPage}
             />
+            <Route
+              exact
+              path="/projects/:project_id/images/:image_id"
+              component={EditImage}
+            />
+            <Route exact path="/user-projects" component={UserProjects} />
           </Switch>
         </Router>
       </TasksContextProvider>

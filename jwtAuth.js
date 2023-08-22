@@ -70,6 +70,7 @@ router.post("/login", validInfo, async (req, res) => {
 });
 
 //to verify
+
 router.get("/is-verify", authorization, async (req, res) => {
   try {
     res.json(true);

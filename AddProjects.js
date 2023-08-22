@@ -33,14 +33,9 @@ const AddProjects = ({ closeModal }) => {
 
     try {
       const res = await fetch("http://localhost:5000/projects", opt);
-      console.log(res);
+      //console.log(res);
       addProjects(res);
       setIsAddButtonClicked((prev) => ++prev);
-      //const data = await res.json();
-      // if (data.token) {
-      //   localStorage.setItem("token", data.token);
-      //   setInput({ project_name: "", address: "", deadline: "", status: "" });
-      // }
     } catch (error) {
       console.error(error.message);
     }

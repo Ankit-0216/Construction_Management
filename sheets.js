@@ -55,7 +55,7 @@ router.post(
 
 //Fetch all images
 
-router.get("/:project_id/upload-images", async (req, res) => {
+router.get("/:project_id/images", async (req, res) => {
   const { project_id } = req.params;
 
   try {
@@ -72,7 +72,7 @@ router.get("/:project_id/upload-images", async (req, res) => {
 
 //Fetch particular image by id
 
-router.get("/:project_id/upload-images/:image_id", async (req, res) => {
+router.get("/:project_id/images/:image_id", async (req, res) => {
   const imageId = req.params.image_id;
   const { project_id } = req.params;
 

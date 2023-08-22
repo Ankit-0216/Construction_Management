@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
+import { Link } from "react-router-dom";
+
 import ProjectHeader from "../components/ProjectHeader";
 import ProjectList from "../components/ProjectList";
 import AddProjects from "../components/AddProjects";
@@ -38,8 +40,12 @@ const Dashboard = ({ setAuth }) => {
   };
 
   return (
-    <div className="container">
+    <div className="conatainer">
       <h1>{`Hi, ${name}`}</h1>
+      <div>
+        <Link to="/dashboard">Dashboard</Link> |{" "}
+        <Link to="/user-projects">User Projects</Link> {/* New Link */}
+      </div>
       <h2>
         <ProjectHeader />
       </h2>
