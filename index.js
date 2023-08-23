@@ -8,6 +8,7 @@ const projectRoutes = require("./routes/projects");
 const taskRoutes = require("./routes/tasks");
 const sheetsRoutes = require("./routes/sheets");
 const userProjectRoutes = require("./routes/userProjects");
+const coordinatesRoutes = require("./routes/coordinates");
 
 const cors = require("cors");
 
@@ -39,6 +40,9 @@ app.use("/projects", sheetsRoutes);
 
 //UserProjects Routes
 app.use("/users-projects", userProjectRoutes);
+
+//CoOrdinates Routes
+app.use("/projects", coordinatesRoutes);
 
 //Start the server
 app.listen(PORT, () => {

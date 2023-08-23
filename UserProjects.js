@@ -2,18 +2,20 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import ProjectModal from "../components/ProjectModal";
+//import { createPortal } from "react-dom";
+import Modal from "react-modal";
 
 const UserProjects = () => {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     axios
       .get("http://localhost:5000/users-projects")
       .then((response) => {
+        //console.log(response);
         // Structure data with projects grouped by user
-        console.log(response);
         const usersWithProjects = response.data.reduce((acc, curr) => {
           if (!acc[curr.user_name]) {
             acc[curr.user_name] = {
@@ -38,12 +40,12 @@ const UserProjects = () => {
 
   const handleOpenModal = (user) => {
     setSelectedUser(user);
-    setIsModalOpen(true);
+    setShowModal(true);
   };
 
   const handleCloseModal = () => {
-    setSelectedUser(null);
-    setIsModalOpen(false);
+    //setSelectedUser(null);
+    setShowModal(false);
   };
 
   return (
@@ -79,9 +81,19 @@ const UserProjects = () => {
             })}
           </tbody>
         </table>
-        {selectedUser && (
+        {/* {showModal &&
+          createPortal(
+            <ProjectModal user={selectedUser} onClose={handleCloseModal} />,
+            document.body
+          )} */}
+        <Modal
+          isOpen={showModal}
+          onRequestClose={handleCloseModal}
+          contentLabel="Projects Modal"
+          ariaHideApp={false}
+        >
           <ProjectModal user={selectedUser} onClose={handleCloseModal} />
-        )}
+        </Modal>
       </div>
     </div>
   );
