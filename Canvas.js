@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 
 import { useOnDraw } from "./Hooks";
 
 import ProjectFinder from "../apis/ProjectFinder";
 
-const Canvas = ({ width, height }) => {
+const Canvas = ({ width, height, coordinates, setCoordinates }) => {
   const [backgroundImageUrl, setBackgroundImageUrl] = useState("");
 
-  const { project_id } = useParams();
-  const { image_id } = useParams();
+  const canvasRef = useRef(null);
+
+  const { project_id, image_id } = useParams();
 
   const { setCanvasRef, onCanvasMouseDown } = useOnDraw(onDraw);
 
@@ -21,6 +22,12 @@ const Canvas = ({ width, height }) => {
         );
         //console.log(response.data.imageUrl);
         setBackgroundImageUrl(response.data.imageUrl);
+
+        // const coordinatesResponse = await ProjectFinder.get(
+        //   `/${project_id}/images/${image_id}/coordinates`
+        // );
+        // console.log(coordinatesResponse.data);
+        // setCoordinates(coordinatesResponse.data);
       } catch (error) {
         console.error(error.message);
       }
@@ -28,8 +35,39 @@ const Canvas = ({ width, height }) => {
     fetchImage();
   }, [project_id, image_id]);
 
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) {
+      return; // Exit if the canvas element isn't available yet
+    }
+    const ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, width, height);
+
+    if (backgroundImageUrl) {
+      const img = new Image();
+      img.src = backgroundImageUrl;
+      img.onload = () => {
+        ctx.drawImage(img, 0, 0, width, height);
+        drawSavedCoordinates(ctx);
+      };
+    }
+  }, [backgroundImageUrl, coordinates, width, height]);
+
+  function drawSavedCoordinates(ctx) {
+    if (coordinates.length > 0) {
+      console.log("Drawing saved coordinates:", coordinates);
+      ctx.strokeStyle = "#000000";
+      ctx.lineWidth = 5;
+      for (let i = 1; i < coordinates.length; i++) {
+        console.log("Drawing line:", coordinates[i - 1], coordinates[i]);
+        drawLine(coordinates[i - 1], coordinates[i], ctx, "#000000", 5);
+      }
+    }
+  }
+
   function onDraw(ctx, point, prevPoint) {
     drawLine(prevPoint, point, ctx, "#000000", 5);
+    setCoordinates((prevCoordinates) => [...prevCoordinates, point]);
   }
 
   function drawLine(start, end, ctx, color, width) {

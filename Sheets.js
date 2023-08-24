@@ -53,17 +53,17 @@ function Sheets() {
           <input onClick={handleUpload} type="file" />
         </h4>
         {images.map((imageUrl, index) => (
-          <Link
-            key={index}
-            to={`/projects/${imageUrl.project_id}/images/${imageUrl.image_id}`}
-          >
-            <img
-              key={index}
-              src={imageUrl.cloudinary_url}
-              alt={`Unable to load`}
-              style={{ width: "200px", height: "auto", margin: "10px" }}
-            />
-          </Link>
+          <div key={index}>
+            <Link
+              to={`/projects/${imageUrl.project_id}/images/${imageUrl.image_id}`}
+            >
+              <img
+                src={imageUrl.cloudinary_url}
+                alt={`Unable to load`}
+                style={{ width: "200px", height: "auto", margin: "10px" }}
+              />
+            </Link>
+          </div>
         ))}
         {/* <img
           src="http://res.cloudinary.com/dc6xvdopk/image/upload/v1692424718/files/nr863coxrofiruimos4m.jpg"
