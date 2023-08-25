@@ -11,7 +11,7 @@ function Sheets() {
   const fetchImage = async () => {
     try {
       const response = await ProjectFinder.get(`/${project_id}/images`);
-      console.log(response.data.imageUrl);
+      //console.log(response.data.imageUrl);
       setImages(response.data.imageUrl);
     } catch (error) {
       console.error(error.message);

@@ -17,7 +17,7 @@ const TasksComponent = () => {
     const fetchData = async () => {
       try {
         const response = await TaskFinder.get(`/${project_id}/tasks`);
-        console.log(response);
+        //console.log(response);
         setTasks(response.data);
       } catch (err) {
         console.error(err.message);
